@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor
@@ -15,6 +17,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserProfileController {
 
     UserProfileService userProfileService;
+
+    @GetMapping("/users")
+    List<UserProfileResponse> getAll (){
+        return userProfileService.getAll();
+    }
 
     @GetMapping("/{id}")
     UserProfileResponse getProfile(@PathVariable String id){
