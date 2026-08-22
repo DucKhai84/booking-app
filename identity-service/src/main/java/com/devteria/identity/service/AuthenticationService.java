@@ -51,6 +51,8 @@ public class AuthenticationService {
 
     public IntrospectResponse introspect(IntrospectRequest request) throws JOSEException, ParseException {
         var token = request.getToken();
+        log.info("Token Identity: {}", token);
+
         boolean isValid = true;
 
         try {

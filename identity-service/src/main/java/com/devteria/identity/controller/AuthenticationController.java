@@ -16,11 +16,13 @@ import com.nimbusds.jose.JOSEException;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@Slf4j
 public class AuthenticationController {
     AuthenticationService authenticationService;
 
@@ -31,14 +33,15 @@ public class AuthenticationController {
     }
 
     @PostMapping("/introspect")
-    ApiResponse<IntrospectResponse> authenticate(@RequestBody IntrospectRequest request)
+    ApiResponse<IntrospectResponse> introspect(@RequestBody IntrospectRequest request)
             throws ParseException, JOSEException {
         var result = authenticationService.introspect(request);
+
         return ApiResponse.<IntrospectResponse>builder().result(result).build();
     }
 
     @PostMapping("/refresh")
-    ApiResponse<AuthenticationResponse> authenticate(@RequestBody RefreshRequest request)
+    ApiResponse<AuthenticationResponse> refreshToken(@RequestBody RefreshRequest request)
             throws ParseException, JOSEException {
         var result = authenticationService.refreshToken(request);
         return ApiResponse.<AuthenticationResponse>builder().result(result).build();

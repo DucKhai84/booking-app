@@ -1,6 +1,4 @@
-package com.devteria.identity.dto.response;
-
-import java.util.Set;
+package com.devteria.api_gateway.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -10,8 +8,6 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class UserResponse {
-    String id;
-    String username;
-    Set<RoleResponse> roles;
+public class IntrospectRequest {
+    String token;
 }
