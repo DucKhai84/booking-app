@@ -24,3 +24,10 @@
               - Path=${app.api-prefix}/profile/users/**
             filters:
               - StripPrefix=${app.strip-prefix}
+
+          - id: notification-service
+            uri: http://localhost:8082
+            predicates:
+              - Path= ${app.api-prefix}/notification/**
+            filters:
+              - StripPrefix=${app.strip-prefix}

@@ -1,15 +1,16 @@
 package com.devteria.profile.controller;
 
-import com.devteria.profile.service.UserProfileService;
-import com.devteria.profile.dto.response.UserProfileResponse;
-import com.devteria.profile.dto.request.ProfileCreationRequest;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
-import lombok.experimental.FieldDefaults;
+import java.util.List;
+
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import com.devteria.profile.dto.response.UserProfileResponse;
+import com.devteria.profile.service.UserProfileService;
+
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 
 @RestController
 @RequestMapping("/users")
@@ -21,13 +22,13 @@ public class UserProfileController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
-    List<UserProfileResponse> getAll (){
+    List<UserProfileResponse> getAll() {
         return userProfileService.getAll();
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/{id}")
-    UserProfileResponse getProfile(@PathVariable String id){
+    UserProfileResponse getProfile(@PathVariable String id) {
         return userProfileService.getProfile(id);
     }
 }
