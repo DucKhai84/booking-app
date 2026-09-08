@@ -8,3 +8,8 @@ spring:
   data:
     mongodb:
       uri: mongodb://root:root@localhost:27017/notification-service?authSource=admin
+app:
+  service:
+    base_url: "https://api.brevo.com"
+    send_path: "/v3/smtp/email"
+    api-key: "${BREVO_API_KEY}"
