@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,5 +32,10 @@ public class EmailController {
         return ApiResponse.<EmailResponse>builder()
                 .result(email_service.sendMail(request))
                 .build();
+    }
+
+    @KafkaListener(topics = "onboard-successful", groupId = "notification-group")
+    public void listen(String message){
+        log.info("Message Receive: {}", message);
     }
 }

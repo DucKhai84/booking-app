@@ -34,13 +34,8 @@ public class EmailService {
     public Object getBrevoAccount() {
         try {
             Object account = email_client.getAccount(api_key);
-
-            log.info("Brevo account response: {}", account);
-
             return account;
         } catch (FeignException e) {
-            log.error("Brevo status: {}", e.status());
-            log.error("Brevo response body: {}", e.contentUTF8());
             throw e;
         }
     }
