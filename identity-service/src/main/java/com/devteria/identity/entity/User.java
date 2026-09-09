@@ -22,6 +22,12 @@ public class User {
     String username;
     String password;
 
+    @Column(name = "email", unique = true, columnDefinition = "VARCHAR(255) COLLATE utf8mb4_unicode_ci")
+    String email;
+
+    @Column(name = "emailVerified", nullable = false, columnDefinition = "boolean default false")
+    Boolean emailVerified;
+
     @ManyToMany
     Set<Role> roles;
 }
