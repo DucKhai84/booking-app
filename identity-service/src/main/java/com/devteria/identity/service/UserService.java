@@ -3,6 +3,7 @@ package com.devteria.identity.service;
 import java.util.HashSet;
 import java.util.List;
 
+import com.devteria.event.dto.NotificationEvent;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -41,9 +42,10 @@ public class UserService {
     ProfileMapper profileMapper;
     PasswordEncoder passwordEncoder;
     ProfileClient profileClient;
-    KafkaTemplate<String, String> kafkaTemplate;
+    KafkaTemplate<String, Object> kafkaTemplate;
 
     public UserResponse createUser(UserCreationRequest request) {
+        log.info("Request: {}", request);
         if (userRepository.existsByUsername(request.getUsername())) throw new AppException(ErrorCode.USER_EXISTED);
 
         User user = userMapper.toUser(request);
@@ -61,19 +63,14 @@ public class UserService {
 
         profileClient.createProfile(profileRequest);
 
-        kafkaTemplate.send("onboard-successful","Welcome our new member")
-                .whenComplete((result, exception) -> {
-                    if (exception == null) {
-                        log.info(
-                                "Kafka sent successfully - topic: {}, partition: {}, offset: {}",
-                                result.getRecordMetadata().topic(),
-                                result.getRecordMetadata().partition(),
-                                result.getRecordMetadata().offset()
-                        );
-                    } else {
-                        log.error("Kafka send failed", exception);
-                    }
-                });
+        NotificationEvent notificationEvent = NotificationEvent.builder()
+                .channel("Email")
+                .recipient(request.getEmail())
+                .subject("Welcome to Bookteria")
+                .body("Hello" + request.getUsername())
+                .build();
+
+        kafkaTemplate.send("notification-delivery", notificationEvent);
 
         return userMapper.toUserResponse(userRepository.save(user));
     }

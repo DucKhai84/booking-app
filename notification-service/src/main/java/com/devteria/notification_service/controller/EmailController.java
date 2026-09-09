@@ -34,8 +34,5 @@ public class EmailController {
                 .build();
     }
 
-    @KafkaListener(topics = "onboard-successful", groupId = "notification-group")
-    public void listen(String message){
-        log.info("Message Receive: {}", message);
-    }
+
 }
