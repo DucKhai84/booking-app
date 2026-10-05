@@ -40,7 +40,6 @@ public class ApplicationInitConfig {
             value = "datasource.driverClassName",
             havingValue = "com.mysql.cj.jdbc.Driver")
     ApplicationRunner applicationRunner(UserRepository userRepository, RoleRepository roleRepository) {
-        log.info("Initializing application.....");
         return args -> {
             if (userRepository.findByUsername(ADMIN_USER_NAME).isEmpty()) {
                 roleRepository.save(Role.builder()
@@ -58,12 +57,12 @@ public class ApplicationInitConfig {
 
                 User user = User.builder()
                         .username(ADMIN_USER_NAME)
+                        .emailVerified(true)
                         .password(passwordEncoder.encode(ADMIN_PASSWORD))
                         .roles(roles)
                         .build();
 
                 userRepository.save(user);
-                log.warn("admin user has been created with default password: admin, please change it");
             }
             log.info("Application initialization completed .....");
         };
