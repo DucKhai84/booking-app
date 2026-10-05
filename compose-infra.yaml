@@ -1,5 +1,33 @@
 version: "4"
+name: booking-infra
 services:
+  mysql:
+    image: mysql:latest
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: identity-service
+
+  mongodb:
+    image: bitnami/mongodb:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    environment:
+      MONGODB_ROOT_USER: root
+      MONGODB_ROOT_PASSWORD: root
+
+  neo4j:
+    image: neo4j:latest
+    container_name: neo4j
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      NEO4J_AUTH: neo4j/password
+
   kafka:
     image: 'apache/kafka:4.3.1'
     container_name: kafka

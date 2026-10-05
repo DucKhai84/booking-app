@@ -3,6 +3,10 @@
 
   app:
     api-prefix: /api/v1
+    identity-service: /identity-service
+    profile-service: /profile-service
+    post-service: /post-service
+    notification-service: /notification-service
     strip-prefix: 2
 
   spring:
@@ -14,20 +18,27 @@
           - id: identity_service
             uri: http://localhost:8080
             predicates:
-              - Path=${app.api-prefix}/identity/**
+              - Path=${app.api-prefix}/identity-service/**
             filters:
               - StripPrefix=${app.strip-prefix}
 
           - id: profile_service
             uri: http://localhost:8081
             predicates:
-              - Path=${app.api-prefix}/profile/users/**
+              - Path=${app.api-prefix}/profile-service/users/**
             filters:
               - StripPrefix=${app.strip-prefix}
 
           - id: notification-service
             uri: http://localhost:8082
             predicates:
-              - Path= ${app.api-prefix}/notification/**
+              - Path= ${app.api-prefix}/notification-service/**
+            filters:
+              - StripPrefix=${app.strip-prefix}
+
+          - id: post-service
+            uri: http://localhost:8083
+            predicates:
+              - Path= ${app.api-prefix}/post-service/**
             filters:
               - StripPrefix=${app.strip-prefix}
