@@ -6,7 +6,5 @@ server:
 spring:
   application:
     name: post-service
-
-  data:
-    mongodb:
-      uri: ${SPRING_DATA_MONGODB_URI:mongodb://root:root@localhost:27017/post-service?authSource=admin}
+  mongodb:
+    uri: mongodb://root:root@localhost:27017/post-service?authSource=admin
