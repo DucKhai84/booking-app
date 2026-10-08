@@ -27,6 +27,8 @@ import static java.util.stream.Collectors.toList;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class PostService {
 
+    DateTimeFormatter dateTimeFormatter;
+
     PostRepository post_repository;
     PostMapper post_mapper;
 
@@ -41,12 +43,18 @@ public class PostService {
 
         var pageData = post_repository.findAllByUserId(userId, pageable);
 
+        var postList = pageData.getContent().stream().map(post -> {
+            var postResponse = post_mapper.toPostResponse(post);
+            postResponse.setCreated(dateTimeFormatter.format(post.getCreatedAt()));
+            return postResponse;
+        }).toList();
+
         return PageResponse.<PostResponse>builder()
                 .currentPage(page)
                 .pageSize(pageData.getSize())
                 .totalPages(pageData.getTotalPages())
                 .totalElements(pageData.getTotalElements())
-                .data(pageData.getContent().stream().map(post_mapper::toPostResponse).toList())
+                .data(postList)
                 .build();
     }
 
