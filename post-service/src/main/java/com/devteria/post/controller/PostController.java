@@ -24,7 +24,7 @@ public class PostController {
     ApiResponse<PageResponse<PostResponse>> getAll(@RequestParam(value = "pageIndex", required = false, defaultValue = "1") int page,
                                                    @RequestParam(value = "pageSize", required = false, defaultValue = "10") int size){
         return ApiResponse.<PageResponse<PostResponse>>builder()
-                .result(post_service.getAll(page, size))
+                .result(post_service.getMyPost(page, size))
                 .build();
     }
 
