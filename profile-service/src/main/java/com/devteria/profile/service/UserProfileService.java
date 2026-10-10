@@ -2,13 +2,13 @@ package com.devteria.profile.service;
 
 import java.util.List;
 
-import com.devteria.profile.exception.AppException;
-import com.devteria.profile.exception.ErrorCode;
 import org.springframework.stereotype.Service;
 
 import com.devteria.profile.dto.request.ProfileCreationRequest;
 import com.devteria.profile.dto.response.UserProfileResponse;
 import com.devteria.profile.entity.UserProfile;
+import com.devteria.profile.exception.AppException;
+import com.devteria.profile.exception.ErrorCode;
 import com.devteria.profile.mapper.UserProfileMapper;
 import com.devteria.profile.repository.UserProfileRepository;
 
@@ -32,8 +32,9 @@ public class UserProfileService {
                 .toList();
     }
 
-    public UserProfileResponse getByUserId (String userId){
-        UserProfile userProfile = userProfileRepository.findByUserId(userId)
+    public UserProfileResponse getByUserId(String userId) {
+        UserProfile userProfile = userProfileRepository
+                .findByUserId(userId)
                 .orElseThrow(() -> new AppException(ErrorCode.USER_NOT_EXISTED));
         return userProfileMapper.toUserProfileResponse(userProfile);
     }
